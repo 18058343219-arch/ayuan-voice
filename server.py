@@ -28,5 +28,6 @@ def speak(text: str) -> str:
     return f"data:audio/mp3;base64,{audio_b64}"
 
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http",
-    host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    import uvicorn
+    app = mcp.get_app(transport="streamable-http")
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
