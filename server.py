@@ -1,7 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 import os, requests, base64
 
-mcp = FastMCP("moss-tts")
+mcp = FastMCP("moss-tts", host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 API_KEY = os.environ.get("MOSS_API_KEY", "sk-392844447ce638e2a76d29da71c80eeaa00d5da9ff7ab216")
 VOICE_ID = os.environ.get("MOSS_VOICE_ID", "187b0c9b-612c-4019-98fe-c7bb59eb8074")
 
@@ -28,6 +28,4 @@ def speak(text: str) -> str:
     return f"data:audio/mp3;base64,{audio_b64}"
 
 if __name__ == "__main__":
-    import uvicorn
-    app = mcp.get_app(transport="streamable-http")
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    mcp.run(transport="streamable-http")
